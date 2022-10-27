@@ -32,6 +32,7 @@ async def main() -> None:
     )
     print(users)
 
+    # find all posts where title and content equal to prisma
     posts = await prisma.post.find_many(
         where={
             'OR': [
@@ -42,6 +43,20 @@ async def main() -> None:
     )
 
     print(posts)
+
+    user = await prisma.user.create(
+        data={
+            'name': 'Jhon',
+            'email': 'jhon@acme.com',
+            'posts': {
+                'create': {
+                    'title': 'My first posts from Prisma!'
+                },
+            },
+        },
+    )
+
+    print(user)
     await prisma.disconnect()
 
 if __name__ == '__main__':
